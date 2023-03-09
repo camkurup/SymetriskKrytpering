@@ -7,21 +7,21 @@ using System.Threading.Tasks;
 
 namespace SymetriskKrytpering
 {
-    public class AESEncryption
+    internal class TripleDESEncryption
     {
         public byte[] Encrypt(byte[] dataToEncrypt, byte[] key, byte[] iv)
         {
-            using (var aes = new AesCryptoServiceProvider())
+            using (var tripleDes = new TripleDESCryptoServiceProvider())
             {
-                aes.Mode = CipherMode.CBC;
-                aes.Padding = PaddingMode.PKCS7;
+                tripleDes.Mode = CipherMode.CBC;
+                tripleDes.Padding = PaddingMode.PKCS7;
 
-                aes.Key = key;
-                aes.IV = iv;
+                tripleDes.Key = key;
+                tripleDes.IV = iv;
 
                 using (var memoryStream = new MemoryStream())
                 {
-                    var cryptoStream = new CryptoStream(memoryStream, aes.CreateEncryptor(),
+                    var cryptoStream = new CryptoStream(memoryStream, tripleDes.CreateEncryptor(),
                         CryptoStreamMode.Write);
 
                     cryptoStream.Write(dataToEncrypt, 0, dataToEncrypt.Length);
@@ -34,17 +34,17 @@ namespace SymetriskKrytpering
 
         public byte[] Decrypt(byte[] dataToDecrypt, byte[] key, byte[] iv)
         {
-            using (var aes = new AesCryptoServiceProvider())
+            using (var tripleDes = new TripleDESCryptoServiceProvider())
             {
-                aes.Mode = CipherMode.CBC;
-                aes.Padding = PaddingMode.PKCS7;
+                tripleDes.Mode = CipherMode.CBC;
+                tripleDes.Padding = PaddingMode.PKCS7;
 
-                aes.Key = key;
-                aes.IV = iv;
+                tripleDes.Key = key;
+                tripleDes.IV = iv;
 
                 using (var memoryStream = new MemoryStream())
                 {
-                    var cryptoStream = new CryptoStream(memoryStream, aes.CreateDecryptor(),
+                    var cryptoStream = new CryptoStream(memoryStream, tripleDes.CreateDecryptor(),
                         CryptoStreamMode.Write);
 
                     cryptoStream.Write(dataToDecrypt, 0, dataToDecrypt.Length);
